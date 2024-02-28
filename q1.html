@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DFA Animation</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="dfaCanvas" width="800" height="400"></canvas>
+    <br />
+    <label for="input">Input:</label>
+    <input type="text" id="input" name="input" />
+    <button onclick="processInput()">Process Input</button>
+
+    <script>
+      // Define DFA states and transitions
+      const states = ["q0", "q1", "q2"];
+      const transitions = {
+        q0: { a: "q1", b: "q2" },
+        q1: { a: "q0" },
+        q2: {  b: "q2" },
+      };
+
+      // Define initial state and accepting state
+      const initialState = "q0";
+      const acceptingState = "q2";
+
+      // Function to draw the DFA
+      function drawDFA(currentState) {
+        const canvas = document.getElementById("dfaCanvas");
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw nodes
+        for (let state of states) {
+          ctx.beginPath();
+          ctx.arc(100 + 200 * states.indexOf(state), 200, 50, 0, 2 * Math.PI);
+          ctx.fillStyle =
+            state === initialState
+              ? "green"
+              : state === acceptingState
+              ? "blue"
+              : "lightblue";
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "black";
+          ctx.textAlign = "center";
+          ctx.fillText(state, 100 + 200 * states.indexOf(state), 200);
+        }
+
+        // Draw transitions
+        for (let sourceState in transitions) {
+          for (let symbol in transitions[sourceState]) {
+            const targetState = transitions[sourceState][symbol];
+            ctx.beginPath();
+            ctx.moveTo(100 + 200 * states.indexOf(sourceState) + 50, 200);
+            ctx.lineTo(100 + 200 * states.indexOf(targetState) - 50, 200);
+            ctx.stroke();
+            ctx.fillText(
+              symbol,
+              (50 +
+                200 * states.indexOf(sourceState) +
+                100 +
+                200 * states.indexOf(targetState)) /
+                2,
+              200
+            );
+          }
+        }
+
+        // Draw arrow indicating current state
+        ctx.beginPath();
+        ctx.moveTo(100 + 200 * states.indexOf(currentState), 150);
+        ctx.lineTo(100 + 200 * states.indexOf(currentState), 100);
+        ctx.lineTo(90 + 200 * states.indexOf(currentState), 115);
+        ctx.moveTo(100 + 200 * states.indexOf(currentState), 100);
+        ctx.lineTo(110 + 200 * states.indexOf(currentState), 115);
+        ctx.stroke();
+      }
+
+      // Function to process input and update DFA state
+      function processInput() {
+        const input = document.getElementById("input").value.trim();
+        let currentState = initialState;
+        for (let symbol of input) {
+          if (transitions[currentState][symbol]) {
+            currentState = transitions[currentState][symbol];
+          } else {
+            currentState = "Invalid";
+            break;
+          }
+        }
+        if (currentState === acceptingState) {
+          alert("Your Input is accepted");
+        } else {
+          alert("Your Input is rejected");
+        }
+        drawDFA(currentState);
+      }
+
+      // Draw the initial DFA
+      drawDFA(initialState);
+    </script>
+  </body>
+</html>
