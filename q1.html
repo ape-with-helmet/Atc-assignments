@@ -11,19 +11,23 @@
     </style>
   </head>
   <body>
-    <canvas id="dfaCanvas" width="800" height="400"></canvas>
-    <br />
-    <label for="input">Input:</label>
-    <input type="text" id="input" name="input" />
-    <button onclick="processInput()">Process Input</button>
-
+    <div style="justify-content: center;align-items: center;padding-top: 70px; display: flex; flex-direction: column">
+      DFA which accepts w = { a^n b^m | n mod 2 =0 & b>=1 }
+      <canvas id="dfaCanvas" width="600px" height="400px" style="width: 50%; align-items: center;"> </canvas>
+      <br />
+      <label for="input">Input:</label>
+      <div  style="display: flex; flex-direction: column;">
+        <input type="text" id="input" name="input" />
+        <button onclick="processInput()">Process Input</button>
+      </div>
+    </div>
     <script>
       // Define DFA states and transitions
       const states = ["q0", "q1", "q2"];
       const transitions = {
         q0: { a: "q1", b: "q2" },
         q1: { a: "q0" },
-        q2: {  b: "q2" },
+        q2: { b: "q2" },
       };
 
       // Define initial state and accepting state
