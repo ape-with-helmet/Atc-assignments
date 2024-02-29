@@ -9,9 +9,13 @@
   <body>
     <div class="main-container">
       <div class="container-insides">
+        <div class="circle q0"></div>
         <div class="circle q1"></div>
         <div class="circle q2"></div>
-        <div class="circle q3"></div>
+        <div class="transition q0-q1"></div>
+        <div class="transition q1-q2"></div>  
+        <div class="transition q2-q0"></div>  
+        <div id="current-state" style=></div>
         hello nigga
       </div>
     </div>
@@ -38,6 +42,11 @@
         q0: { a: "q1", b: "q2" },
         q1: { a: "q0" },
         q2: { b: "q2" },
+      };
+      const statePositions = {
+        q0: { top: 6.2, left: 24.2 },
+        q1: { top: 19.2, left: 44.2 },
+        q2: { top: 6.2, left: 63.2 },
       };
 
       // Define initial state and accepting state
@@ -99,20 +108,24 @@
 
       // Function to process input and update DFA state
       function processInput() {
+        var state = document.getElementById("current-state").style;
         const input = document.getElementById("input").value.trim();
         let currentState = initialState;
         for (let symbol of input) {
-          if (transitions[currentState][symbol]) {
-            currentState = transitions[currentState][symbol];
-          } else {
-            currentState = "Invalid";
-            break;
-          }
+        setTimeout(()=>{
+
+            console.log(symbol)
+              currentState = transitions[currentState][symbol];
+              const topper=statePositions[currentState].top;
+              state.top=topper+"vh";
+              state.left=statePositions[currentState].left+"vw";
+            
+          },5000)
         }
         if (currentState === acceptingState) {
-          alert("Your Input is accepted");
+          // alert("Your Input is accepted");
         } else {
-          alert("Your Input is rejected");
+          // alert("Your Input is rejected");
         }
         drawDFA(currentState);
       }
