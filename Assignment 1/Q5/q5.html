@@ -63,28 +63,22 @@
       function delay(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
-      // Define DFA states and transitions
-      const states = ["q0", "q1", "q2"];
       const transitions = {
-        q0: { 0: "q1", 1: "q3" },
-        q1: { 0: "q4", 1: "q2" },
-        q2: { 0: "q2", 1: "q2" },
-        q3: { 0: "q4", 1: "q3" },
-        q4: { 0: "q4", 1: "q5" },
-        q5: { 0: "q4", 1: "q3" },
+        q0: { a: "q1", b: "q2" },
+        q1: { a: "q1", b: "q2" },
+        q2: { a: "q3", b: "q2" },
+        q3: { a: "q3", b: "q3" },
       };
       const statePositions = {
-        q0: { top: 108, left: 538 },
-        q1: { top: 108, left: 710 },
-        q2: { top: 108, left: 873 },
-        q3: { top: 266, left: 538 },
-        q4: { top: 266, left: 710 },
-        q5: { top: 266, left: 873 },
+        q0: { top: 189, left: 538 },
+        q1: { top: 189, left: 656 },
+        q2: { top: 189, left: 781 },
+        q3: { top: 189, left: 905 },
       };
 
       // Define initial state and accepting state
       const initialState = "q0";
-      const acceptingState = ["q2", "q5"];
+      const acceptingState = ["q2"];
 
       // Function to process input and update DFA state
       async function processInput() {
@@ -97,7 +91,7 @@
           output.innerText = "Enter the string!";
           return;
         }
-        regex = /^[01]+$/;
+        regex = /^[ab]+$/;
         const checker = regex.test(input);
         if (!checker) {
           output.innerText = "Wrong Language! \nUse only a and b";
@@ -105,7 +99,7 @@
         }
         let currentState = initialState;
         for (let symbol of input) {
-          if (symbol != 0 && symbol != 1) {
+          if (symbol != "a" && symbol != "b") {
             output.innerText = "Wrong Language!";
           }
           output.innerText = "Processing your input...";
