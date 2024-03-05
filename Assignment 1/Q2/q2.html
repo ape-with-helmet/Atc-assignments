@@ -394,7 +394,7 @@
       </svg>
       <div id="current-state"></div>
       <div class="container-insides">
-        <div>DFA which accepts w = { a^n b^m | n mod 2 =0 & b>=1 }</div>
+        <div>DFA which accepts L = {w | w ∈ {a, b}* and Na (w) mod 3 = Nb (w) mod 3}.</div>
         <label for="input">Input:</label>
         <input type="text" id="input" name="input" required />
         <button onclick="processInput()" class="button">Process Input</button>
@@ -438,6 +438,8 @@
       // Function to process input and update DFA state
       async function processInput() {
         const output = document.getElementById("output");
+        const showOut = [];
+        const readSymbol = document.getElementById("read-symbol");
         var state = document.getElementById("current-state").style;
         const input = document.getElementById("input").value.trim();
         if (!input) {
@@ -457,6 +459,8 @@
           }
           output.innerText = "Processing your input...";
           console.log(symbol);
+          showOut.push(symbol)
+          readSymbol.innerText = "Reading..." + showOut;
           if (currentState === transitions[currentState][symbol]) {
             continue;
           }

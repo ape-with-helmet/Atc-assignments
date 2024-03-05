@@ -203,6 +203,8 @@
       // Function to process input and update DFA state
       async function processInput() {
         const output = document.getElementById("output");
+        const showOut = [];
+        const readSymbol = document.getElementById("read-symbol");
         var state = document.getElementById("current-state").style;
         const input = document.getElementById("input").value.trim();
         if (!input) {
@@ -222,6 +224,8 @@
           }
           output.innerText = "Processing your input..."
           console.log(symbol);
+          showOut.push(symbol)
+          readSymbol.innerText = "Reading..." + showOut;
           if (currentState === transitions[currentState][symbol]) {
             continue;
           }
